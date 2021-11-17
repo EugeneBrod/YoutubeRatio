@@ -5,7 +5,12 @@ function myMain (evt) {
       // extract number of likes
       const like_selector = "yt-formatted-string#text.ytd-toggle-button-renderer"
       var likes = $(like_selector)
-      likesString = likes[0].innerHTML    
+      try {
+        likesString = likes[0].innerHTML    
+      }
+      catch {
+        return
+      }
       numberOfLikes = likesString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0];
       if (!isNaN(numberOfLikes[numberOfLikes.length-1])) {
         numberOfLikes = parseInt(numberOfLikes)
@@ -20,10 +25,16 @@ function myMain (evt) {
     
       //extract number of views
       const view_selector = "#container > #info > #info-text > #count"
-      var views = $(view_selector)
-      views = views.find("span.view-count")
-      viewsString = views.get()[0].innerHTML
-      numberOfViews = parseInt(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
+      try {
+        var views = $(view_selector)
+        views = views.find("span.view-count")
+        viewsString = views.get()[0].innerHTML
+        numberOfViews = parseInt(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
+      }
+      catch {
+        return
+      }
+
 
       // calculate and render ratio
       const ratio = (numberOfLikes/numberOfViews) * 100;
@@ -33,6 +44,7 @@ function myMain (evt) {
       /* var dislikes = document.getElementsByClassName("style-scope ytd-toggle-button-renderer style-text");
       dislikes[3].innerHTML = "likes/views: " + String(ratio).slice(0, 4) + "%"; */
     }
+
   loop();
 
   // Options for the observer (which mutations to observe)
@@ -46,16 +58,15 @@ function myMain (evt) {
   // Create an observer instance linked to the callback function
   var observer = new MutationObserver(callback);
 
-  const title_class = "#container > h1 > yt-formatted-string";
-  var title = $(title_class);
+  const body_search = "body";
+  var body = $(body_search);
 
-  var targetNode = title[0];
+  var targetNode = body[0];
     // Select the node that will be observed for mutations
   //var targetNode = document.getElementById('some-id');
 
   // Start observing the target node for configured mutations
   observer.observe(targetNode, config);
-
 }
 
 window.addEventListener ("load", myMain, false);

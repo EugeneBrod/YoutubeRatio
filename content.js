@@ -13,13 +13,14 @@ function myMain (evt) {
       }
       numberOfLikes = likesString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0];
       if (!isNaN(numberOfLikes[numberOfLikes.length-1])) {
-        numberOfLikes = parseInt(numberOfLikes)
+        numberOfLikes = parseFloat(numberOfLikes)
       } else {
         if (numberOfLikes[numberOfLikes.length-1] == "K") {
-          numberOfLikes = parseInt(numberOfLikes.slice(0,numberOfLikes.length-1)) * 1000
+          console.log(parseFloat(numberOfLikes.slice(0,numberOfLikes.length-1)))
+          numberOfLikes = parseFloat(numberOfLikes.slice(0,numberOfLikes.length-1)) * 1000
         }
         if (numberOfLikes[numberOfLikes.length-1] == "M") {
-          numberOfLikes = parseInt(numberOfLikes.slice(0,numberOfLikes.length-1)) * 1000000
+          numberOfLikes = parseFloat(numberOfLikes.slice(0,numberOfLikes.length-1)) * 1000000
         }
       }
     
@@ -29,7 +30,7 @@ function myMain (evt) {
         var views = $(view_selector)
         views = views.find("span.view-count")
         viewsString = views.get()[0].innerHTML
-        numberOfViews = parseInt(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
+        numberOfViews = parseFloat(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
       }
       catch {
         return
@@ -37,6 +38,8 @@ function myMain (evt) {
 
 
       // calculate and render ratio
+      console.log(numberOfLikes)
+      console.log(numberOfViews)
       const ratio = (numberOfLikes/numberOfViews) * 100;
       if ((!isNaN(ratio))) {
         likes[1].innerHTML = "likes/views: " + String(ratio).slice(0, 4) + "%";

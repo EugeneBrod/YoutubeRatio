@@ -16,7 +16,6 @@ function myMain (evt) {
         numberOfLikes = parseFloat(numberOfLikes)
       } else {
         if (numberOfLikes[numberOfLikes.length-1] == "K") {
-          console.log(parseFloat(numberOfLikes.slice(0,numberOfLikes.length-1)))
           numberOfLikes = parseFloat(numberOfLikes.slice(0,numberOfLikes.length-1)) * 1000
         }
         if (numberOfLikes[numberOfLikes.length-1] == "M") {
@@ -38,8 +37,6 @@ function myMain (evt) {
 
 
       // calculate and render ratio
-      console.log(numberOfLikes)
-      console.log(numberOfViews)
       const ratio = (numberOfLikes/numberOfViews) * 100;
       if ((!isNaN(ratio))) {
         likes[1].innerHTML = "likes/views: " + String(ratio).slice(0, 4) + "%";

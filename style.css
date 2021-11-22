@@ -1,4 +1,13 @@
 html, body {
-  width: 600px;
-  height: 200px;
+  width: 1000px;
+  height: 500px;
+}
+
+.BackDrop {
+  background-color: #ffdede;
+  width:200px;
+  height: 150px;
+  position:relative;
+  margin: auto;
+
 }

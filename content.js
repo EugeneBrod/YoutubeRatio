@@ -1,3 +1,5 @@
+import './content.css'
+
 function myMain (evt) {
 
   var loop = function () {

@@ -2,7 +2,7 @@
 function myMain (evt) {
 
   var loop = function () {
-
+      console.log("LOOP")
       // extract number of likes
       const like_selector = "yt-formatted-string#text.ytd-toggle-button-renderer"
       var likes = $(like_selector)
@@ -10,6 +10,7 @@ function myMain (evt) {
         likesString = likes[0].innerHTML    
       }
       catch {
+        console.log("couldn't find data")
         return
       }
       numberOfLikes = likesString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0];
@@ -33,6 +34,7 @@ function myMain (evt) {
         numberOfViews = parseFloat(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
       }
       catch {
+        console.log("couldn't find data")
         return
       }
 
@@ -47,28 +49,50 @@ function myMain (evt) {
     }
 
   loop();
+  
+  var addCustomEventListener = function (selector, event, handler) {
+    let rootElement = document.querySelector('body');
+    //since the root element is set to be body for our current dealings
+    rootElement.addEventListener(event, function (evt) {
+            var targetElement = evt.target;
+            while (targetElement != null) {
+                if (targetElement.matches(selector)) {
+                    handler(evt);
+                    return;
+                }
+                targetElement = targetElement.parentElement;
+            }
+        },
+        true
+    );
+  }
 
-  // Options for the observer (which mutations to observe)
-  var config = { attributes: true, childList: true, subtree: true, characterData: true};
+  //adding the Event Listeners to all the li tasks
+  addCustomEventListener('video','loadeddata',loop);
 
+
+  /* // Options for the observer (which mutations to observe)
+  var config = { childList: true, subtree: true, attributes: true };
+  
   // Callback function to execute when mutations are observed
   var callback = function(mutationsList) {
+      console.log("callback");
       loop();
   };
 
   // Create an observer instance linked to the callback function
   var observer = new MutationObserver(callback);
 
-  const body_search = "body";
-  var body = $(body_search);
+  const video_player_qry = "#container";
+  var video_player = $(video_player_qry);
+  var targetNode = video_player[0]
+  console.log(video_player)
 
-  var targetNode = body[0];
     // Select the node that will be observed for mutations
   //var targetNode = document.getElementById('some-id');
 
   // Start observing the target node for configured mutations
-  observer.observe(targetNode, config);
+  observer.observe(targetNode, config); */
 }
-
 window.addEventListener ("load", myMain, false);
 

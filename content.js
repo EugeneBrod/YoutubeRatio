@@ -1,4 +1,3 @@
-import './content.css'
 
 function myMain (evt) {
 

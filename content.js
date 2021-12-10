@@ -1,16 +1,25 @@
 
 function myMain (evt) {
-
-  var loop = function () {
-      console.log("LOOP")
+  // tries main loop every second NUM_ATTEMPT times, logs a timeout if it fails
+  var loopUntilGiveUp = function() {
+    numAttempts = 0;
+    //console.log("STARTING INTERVAL")
+    var id = setInterval(function () {
+      numAttempts += 1
+      //console.log(numAttempts)
+      if (numAttempts === 10) {
+        clearInterval(id)
+        //console.log("failed getting data for like view ratio")
+      }
       // extract number of likes
       const like_selector = "yt-formatted-string#text.ytd-toggle-button-renderer"
+
       var likes = $(like_selector)
       try {
         likesString = likes[0].innerHTML    
       }
       catch {
-        console.log("couldn't find data")
+        //console.log("couldn't find data")
         return
       }
       numberOfLikes = likesString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0];
@@ -34,21 +43,19 @@ function myMain (evt) {
         numberOfViews = parseFloat(viewsString.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; })[0].replaceAll(',',''));
       }
       catch {
-        console.log("couldn't find data")
+        //console.log("couldn't find data")
         return
       }
-
 
       // calculate and render ratio
       const ratio = (numberOfLikes/numberOfViews) * 100;
       if ((!isNaN(ratio))) {
         likes[1].innerHTML = "likes/views: " + String(ratio).slice(0, 4) + "%";
       }
-      /* var dislikes = document.getElementsByClassName("style-scope ytd-toggle-button-renderer style-text");
-      dislikes[3].innerHTML = "likes/views: " + String(ratio).slice(0, 4) + "%"; */
-    }
+      clearInterval(id)
+    }, 1000)
+  }
 
-  loop();
   
   var addCustomEventListener = function (selector, event, handler) {
     let rootElement = document.querySelector('body');
@@ -57,7 +64,8 @@ function myMain (evt) {
             var targetElement = evt.target;
             while (targetElement != null) {
                 if (targetElement.matches(selector)) {
-                    handler(evt);
+                  // passing event to loop???
+                    handler();
                     return;
                 }
                 targetElement = targetElement.parentElement;
@@ -67,32 +75,8 @@ function myMain (evt) {
     );
   }
 
-  //adding the Event Listeners to all the li tasks
-  addCustomEventListener('video','loadeddata',loop);
+  addCustomEventListener('video','loadeddata',loopUntilGiveUp);
 
-
-  /* // Options for the observer (which mutations to observe)
-  var config = { childList: true, subtree: true, attributes: true };
-  
-  // Callback function to execute when mutations are observed
-  var callback = function(mutationsList) {
-      console.log("callback");
-      loop();
-  };
-
-  // Create an observer instance linked to the callback function
-  var observer = new MutationObserver(callback);
-
-  const video_player_qry = "#container";
-  var video_player = $(video_player_qry);
-  var targetNode = video_player[0]
-  console.log(video_player)
-
-    // Select the node that will be observed for mutations
-  //var targetNode = document.getElementById('some-id');
-
-  // Start observing the target node for configured mutations
-  observer.observe(targetNode, config); */
 }
 window.addEventListener ("load", myMain, false);
 

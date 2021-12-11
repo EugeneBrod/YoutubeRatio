@@ -74,7 +74,7 @@ function myMain (evt) {
         true
     );
   }
-
+  setTimeout(loopUntilGiveUp, 6000)
   addCustomEventListener('video','loadeddata',loopUntilGiveUp);
 
 }

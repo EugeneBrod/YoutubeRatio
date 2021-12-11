@@ -1,13 +1,13 @@
 
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
  
   "name": "YoutubeRatio",
-  "version": "0.0.0.5",
+  "version": "0.0.0.6",
   "description": "Displays like to view ratio for Youtube videos. Made in response to Youtube's effective dislike button removal.",
   "icons": {"128": "./assets/images/icon_128.png"},
   "content_scripts": [{
-    "run_at": "document_start",
+    "run_at": "document_end",
     "js": [
       "assets/js/jquery-3.6.0.min.js",
       "content.js"
@@ -15,7 +15,7 @@
     "all_frames": true,
     "matches": ["*://*.youtube.com/*"]
   }],
-  "browser_action": {
+  "action": {
     "default_icon": "./assets/images/icon.png",
     "default_popup": "popup.html"
   }

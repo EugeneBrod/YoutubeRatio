@@ -4,7 +4,7 @@
  
   "name": "YoutubeRatio",
   "version": "0.0.0.6",
-  "description": "Displays like to view ratio for Youtube videos. Made in response to Youtube's effective dislike button removal.",
+  "description": "Displays like to view ratio for Youtube videos.",
   "icons": {"128": "./assets/images/icon_128.png"},
   "content_scripts": [{
     "run_at": "document_end",
